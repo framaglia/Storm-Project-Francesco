@@ -20,7 +20,7 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 import backtype.storm.utils.Utils;
 
-
+//ciao
 public class TwitterSpout extends BaseRichSpout {
 
 	private static final long serialVersionUID = 1L;
