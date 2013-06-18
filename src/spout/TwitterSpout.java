@@ -20,28 +20,28 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 import backtype.storm.utils.Utils;
 
-
 public class TwitterSpout extends BaseRichSpout {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3L;
 	LinkedBlockingQueue<Status> queue = null;
 	SpoutOutputCollector collectorSpout;
-	
+
 	@Override
 	public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
-		
+
 		collectorSpout = collector;
 		queue = new LinkedBlockingQueue<Status>(1000);
 		TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
-		
+
         StatusListener listener = new StatusListener() {
            
         	@Override
             public void onStatus(Status status) {
-            	
-        		if(isValid(status)) 
-        			queue.add(status);
-        		else System.out.println("invalid status");
+        		boolean isValid = isValid(status);
+        		
+        		if(isValid) queue.offer(status);
+        			//System.out.println(status);
+        	
             }
 
             @Override
@@ -70,32 +70,35 @@ public class TwitterSpout extends BaseRichSpout {
 			@Override
 			public void onStallWarning(StallWarning arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			public boolean isValid(Status status){
-				
+
 				boolean valid = false;
-				
 				User user = status.getUser();
 
 				if (user.isGeoEnabled()) {
-					URLEntity[] urls = status.getURLEntities();
 					
-					if (urls[0] != null) {
-						String displayURL = urls[0].getDisplayURL();
-						String subURL = displayURL.substring(0, 3);
-					
-						if (subURL.equals("4sq")) {
-							GeoLocation geo = status.getGeoLocation();
-						
-							if (geo != null) 
-								valid = true;
+					URLEntity[] urls;
+					try {
+						urls = status.getURLEntities();
+						if (urls[0] != null) {
+							String displayURL = urls[0].getDisplayURL();
+							String subURL = displayURL.substring(0, 3);
+							if (subURL.equals("4sq")) {
+								GeoLocation geo = status.getGeoLocation();
+								if (geo != null) 
+									valid = true;
 
+							}
 						}
+					} catch (Exception e) {
+						
 					}
+					
 				}
-				
+
 				return valid;
 			}
         };
@@ -116,13 +119,13 @@ public class TwitterSpout extends BaseRichSpout {
         } else {
             collectorSpout.emit(new Values(status));
         }
-		
+
 	}
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
-		declarer.declare(new Fields("tweet"));
-		
+		declarer.declare(new Fields("tweetLL"));
+
 	}
 
 }

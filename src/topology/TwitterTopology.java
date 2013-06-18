@@ -5,25 +5,33 @@ import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
-import bolt.TwitterBolt;
+import bolt.CategoryTweetBolt;
+import bolt.NationalityTweetBolt;
 
 public class TwitterTopology {
 
-	/**
-	 * @param args 
-	 */
-	public static void main(String[] args) {
-		
+	public static void main (String[] args){
+		Esegui("Bar");
+	}
+	
+	public static void Esegui(String category ) {
+
 		final TopologyBuilder builder = new TopologyBuilder();
+    
+		CategoryTweetBolt categoryBolt = new CategoryTweetBolt();
+		NationalityTweetBolt nationBolt = new NationalityTweetBolt();
+		categoryBolt.setCategory(category);
 		
-
-		builder.setSpout("sample", new TwitterSpout());
-		builder.setBolt("latitude", new TwitterBolt()).shuffleGrouping("sample");
+		
+		builder.setSpout("tweetLL", new TwitterSpout());
+		builder.setBolt("categoryTweet",categoryBolt).shuffleGrouping("tweetLL");
+		builder.setBolt("nationalityTweet",nationBolt).shuffleGrouping("categoryTweet");
+	
 		final Config conf = new Config();
-
 		final LocalCluster cluster = new LocalCluster();
 
 		cluster.submitTopology("test", conf, builder.createTopology());
+
 		
 		Utils.sleep(5 * 60 * 1000);
 		cluster.shutdown();

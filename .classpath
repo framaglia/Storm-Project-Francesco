@@ -55,5 +55,7 @@
 	<classpathentry kind="lib" path="/home/kix/Juno Workspace/storm-0.8.1/lib/clj-time-0.4.1.jar"/>
 	<classpathentry kind="lib" path="/home/kix/Juno Workspace/storm-0.8.1/lib/carbonite-1.5.0.jar"/>
 	<classpathentry kind="lib" path="/home/kix/Juno Workspace/storm-0.8.1/lib/asm-4.0.jar"/>
+	<classpathentry kind="lib" path="/home/kix/Juno Workspace/json-20090211.jar"/>
+	<classpathentry kind="lib" path="/home/kix/Juno Workspace/foursquare-api-1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
