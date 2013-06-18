@@ -11,10 +11,15 @@ import bolt.NationalityTweetBolt;
 public class TwitterTopology {
 
 	public static void main (String[] args){
-		Esegui("Bar");
+		try {
+			executeStorm("Bar");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public static void Esegui(String category ) {
+	public static void executeStorm(String category) throws Exception {
 
 		final TopologyBuilder builder = new TopologyBuilder();
     
