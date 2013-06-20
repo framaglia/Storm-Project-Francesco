@@ -25,7 +25,8 @@ import backtype.storm.tuple.Tuple;
 public class NationalityTweetBolt extends BaseRichBolt{
 
 	private static final long serialVersionUID = 2L;
-	private static final HashMap<String,String> ACRONYM = new HashMap(new AcronimNationUtility().getACRONYM());
+	private static final Map<String,String> ACRONYM = new HashMap<String, String>(new AcronimNationUtility().getACRONYM());
+	private static final Socket socket = new Socket();
 	
 	@Override
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
@@ -52,7 +53,7 @@ public class NationalityTweetBolt extends BaseRichBolt{
 			FoursQuareUtility fourSquareUtility = new FoursQuareUtility();
 			String nation = fourSquareUtility.getTweetNationality(ll);
 			String acronym = ACRONYM.get(nation);
-			System.out.println("finded tweet in: "+ nation + "ACR: "+acronym);
+			System.out.println("finded tweet in: "+ nation + " ACR: "+acronym);
 			try {
 				json.put("acr", acronym);
 			} catch (JSONException e1) {
@@ -61,7 +62,7 @@ public class NationalityTweetBolt extends BaseRichBolt{
 			}
 			try {
 				
-				Socket socket = new Socket();
+				//Socket socket = new Socket();
 				//socket.getSocket().emit("message", nation);
 				socket.getSocket().emit("coords", json);
 				

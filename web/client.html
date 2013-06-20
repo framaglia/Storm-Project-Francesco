@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 	<html>
 	<head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -6,8 +6,9 @@
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
-
     <script type="text/javascript" src="world.js"></script>
+	<script type="text/javascript" src="canvas.js"></script>
+	<script type="text/javascript" src="colorScale.js"></script>
 
     <script type="text/javascript" src="raphael-min.js"></script>
     <style media="screen">
@@ -33,21 +34,36 @@
                 color: #ccf;
             }
         </style>
-
-	</head>
-	<body>
-
-		
-		<script src="http://127.0.0.1:3000/socket.io/socket.io.js"> </script>
+<script>
 	
+
+function drawWorld(){
+	paper = Raphael(10, 10, 1000, 400);
+	paper.rect(0, 0, 1000, 400, 10).attr({stroke: "none",fill: "0-#9bb7cb-#adc8da"});
+	for (var country in worldmap.shapes) {
+		paper.path(worldmap.shapes[country]).attr({stroke: "#ccc6ae", fill: "#ffffff", "stroke-opacity": 1});
+    }
+			
+				
+}
+
+</script>
+	</head>
+	<body onload="drawWorld()">
+
+
+		<script src="http://127.0.0.1:3000/socket.io/socket.io.js"> </script>
+
 		<script>
 
-		
-	
+         
+		 
+		var pointsArray = [];
+		var started = false;
 		var socket = io.connect("http://localhost:3000");
-	
+
 		socket.on('connect', function(){
-			
+
         	console.log('connected');
         
    		 });
@@ -58,19 +74,15 @@
    		 socket.on('nation', function(data){ 
         
        		console.log('message received: ' + data);
-       		
-        		document.getElementById('resultField').value = data;
+       		if(started){
+        		document.getElementById('resultField').value = data;}
     	});
 
        socket.on('coords',function(data){
-          
-          console.log(data["ll"]);
-           Raphael(10, 10, 1000, 400, function () {
-                var r = this;
-                r.rect(0, 0, 1000, 400, 10).attr({
-                    stroke: "none",
-                    fill: "0-#9bb7cb-#adc8da"
-                });
+          //var dataJson = JSON.parse(data);
+          console.log(data);
+         
+                var r = paper;
                 var over = function () {
                     this.c = this.c || this.attr("fill");
                     this.stop().animate({fill: "#bacabd"}, 500);
@@ -79,15 +91,9 @@
                         this.stop().animate({fill: this.c}, 500);
                     };
                 r.setStart();
-                var hue = Math.random();
-                for (var country in worldmap.shapes) {
-                    // var c = Raphael.hsb(Math.random(), .5, .75);
-                    // var c = Raphael.hsb(.11, .5, Math.random() * .25 - .25 + .75);
-                    r.path(worldmap.shapes[country]).attr({stroke: "#ccc6ae", fill: "#f0efeb", "stroke-opacity": 0.25});
-                }
+                
                 var world = r.setFinish();
                 world.hover(over, out);
-                // world.animate({fill: "#666", stroke: "#666"}, 2000);
                 world.getXY = function (lat, lon) {
                     return {
                         cx: lon * 2.6938 + 465.4,
@@ -115,43 +121,48 @@
           
                     return this.getXY(lat, lon);
                 };
+                    
+					var ll = data["ll"];
+					var acr = data["acr"];
+					
+				
+									
+					
+					
+					var country = worldmap["shapes"][acr];
+					var newPath =	r.path(country)
+					console.log(acr);
+					var colore = color["colors"][acr];
+					 
+				    var colorSommato = hex2Int(colore);
+					color["colors"][acr] = colorSommato;
+					console.log(colorSommato)
+					newPath.stop().animate({fill: colorSommato,stroke: "none"});
+					
+				    var llDot = world.parseLatLon(ll);
+					
+                    if(pointsArray.length === 0){
+					var dot = r.circle().attr({fill: "r#FE7727:50-#F57124:100", stroke: "#fff", "stroke-width": 2});
+					
+                    //Disegnamo i punti
+					dot.stop().attr(llDot).animate({r: 2}, 1000, "elastic");
+                    //llDot.r = 0;
+					
+					}
+					
+					
+					for(var cont=0;cont<pointsArray.length;cont++){
+					
+					var dot = r.circle().attr({fill: "r#FE7727:50-#F57124:100", stroke: "#fff", "stroke-width": 2});
+					dot.stop().attr(pointsArray[cont]).animate({r: 2}, 1000, "elastic");
+					
+					}
+                    
+					pointsArray.push(llDot);
+					console.log(pointsArray.length)
 
-                try {
-                    navigator.geolocation && navigator.geolocation.getCurrentPosition(function (pos) {
-                        r.circle().attr({fill: "none", stroke: "#f00", r: 5}).attr(world.getXY(pos.coords.latitude, pos.coords.longitude));
-                    });
-                } catch (e) {}
-                var frm = document.getElementById("latlon-form"),
-                    dot = r.circle().attr({fill: "r#FE7727:50-#F57124:100", stroke: "#fff", "stroke-width": 2, r: 0}),
-                    // dot2 = r.circle().attr({stroke: "#000", r: 0}),
-                    ll = document.getElementById("latlon"),
-                    cities = document.getElementById("cities");
-               
-                var attr = world.parseLatLon(data);
-                    attr.r = 0;
-                    dot.stop().attr(attr).animate({r: 5}, 1000, "elastic");
-                frm.onsubmit = function () {
-        
-                    var attr = world.parseLatLon(ll.value);
-                    attr.r = 0;
-                    dot.stop().attr(attr).animate({r: 5}, 1000, "elastic");
-                    // dot2.stop().attr(attr).animate({r: 10}, 1000, "elastic");
-                    return false;
-                };
-                cities.onclick = function (e) {
-                    e = e || window.event;
-                    var target = e.target || e.srcElement || document;
-                    if (target.tagName == "A") {
-                        var txt = decodeURIComponent(target.href.substring(target.href.indexOf("#") + 1)),
-                            attr = world.parseLatLon(txt);
-                        ll.value = txt;
-                        attr.r = 0;
-                        dot.stop().attr(attr).animate({r: 5}, 1000, "elastic");
-                        // dot2.stop().attr(attr).animate({r: 10}, 1000, "elastic");
-                        return false;
-                    }
-                };
-            });
+                
+            
   
        });
    		
@@ -162,9 +173,15 @@
 
     	});
     
-	
+		function startStorm(){
+
+			started = !started;
+			socket.emit('startStorm');
+
+    }
+
 </script>
 
 
 	</body>
-	</html>																		
+	</html>					

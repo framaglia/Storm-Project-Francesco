@@ -1,5 +1,7 @@
 package socket;
 
+import java.net.MalformedURLException;
+
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
 import io.socket.SocketIO;
@@ -14,10 +16,15 @@ public class Socket implements IOCallback {
 	private SocketIO socket;
 	
 
-	public Socket() throws Exception {
+	public Socket()  {
 		socket = new SocketIO();
 		
-		socket.connect("http://127.0.0.1:3000/", this);
+		try {
+			socket.connect("http://127.0.0.1:3000/", this);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 		
 	}

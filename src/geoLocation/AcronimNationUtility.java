@@ -5,12 +5,12 @@ import java.util.Map;
 
 public class AcronimNationUtility {
 
+	private final Map<String,String> ACRONYM;
+	
 	public Map<String, String> getACRONYM() {
 		return ACRONYM;
 	}
 
-	private final Map<String,String> ACRONYM;
-	
 	public AcronimNationUtility(){
 		
 		this.ACRONYM = new HashMap<String,String>();
@@ -21,6 +21,7 @@ public class AcronimNationUtility {
 	public void mapFiller(Map<String,String> mapToFill){
 		ACRONYM.put("Vanuatu","VU");
 		ACRONYM.put("Latvia","LV");
+		ACRONYM.put("Lithuania","LT");
 		ACRONYM.put("Luxembourg","LU");
 		ACRONYM.put("Viet Nam","VN");
 		ACRONYM.put("Ecuador","EC");
@@ -155,7 +156,7 @@ public class AcronimNationUtility {
 		ACRONYM.put("Sudan","SD");
 		ACRONYM.put("Czech Republic","CZ");
 		ACRONYM.put("Cyprus","CY");
-		ACRONYM.put("Democratic People's Republic of Korea","KP");
+		ACRONYM.put("North Korea","KP");
 		ACRONYM.put("Sweden","SE");
 		ACRONYM.put("South Korea","KR");
 		ACRONYM.put("Cuba","CU");

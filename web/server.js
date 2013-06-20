@@ -1,4 +1,3 @@
-
 var http = require("http");
 var sio = require('socket.io');
 
@@ -28,7 +27,7 @@ socket.on('connection', function(client){
     client.on("coords", function(data){
         var ll = data["ll"];
         var acr = data["acr"];
-        console.log(ll+acr);
+        console.log(ll+" "+acr);
         client.broadcast.emit('coords',data);
     });
 
