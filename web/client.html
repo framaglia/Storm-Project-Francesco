@@ -43,7 +43,7 @@
 		<script>
 
 		
-		var started = false;
+	
 		var socket = io.connect("http://localhost:3000");
 	
 		socket.on('connect', function(){
@@ -58,8 +58,8 @@
    		 socket.on('nation', function(data){ 
         
        		console.log('message received: ' + data);
-       		if(started){
-        		document.getElementById('resultField').value = data;}
+       		
+        		document.getElementById('resultField').value = data;
     	});
 
        socket.on('coords',function(data){
@@ -126,6 +126,7 @@
                     // dot2 = r.circle().attr({stroke: "#000", r: 0}),
                     ll = document.getElementById("latlon"),
                     cities = document.getElementById("cities");
+               
                 var attr = world.parseLatLon(data);
                     attr.r = 0;
                     dot.stop().attr(attr).animate({r: 5}, 1000, "elastic");
@@ -161,17 +162,9 @@
 
     	});
     
-		function startStorm(){
-			
-			started = !started;
-			socket.emit('startStorm');
-
-    }
 	
 </script>
 
-<input type="text" id="inputModelId" style="margin-top: 46px; margin-left: 5px"><button id="buttonInputModel" onclick="startStorm()" style="margin-left: 30px; margin-top: 50px">start</button></input>
-<textarea id="resultField" style="position: absolute; margin-top: 12px; margin-left: 30px; width: 300px; height: 93px "></textarea>
 
 	</body>
 	</html>																		

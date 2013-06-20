@@ -26,7 +26,9 @@ socket.on('connection', function(client){
      });
 
     client.on("coords", function(data){
-        console.log(data);
+        var ll = data["ll"];
+        var acr = data["acr"];
+        console.log(ll+acr);
         client.broadcast.emit('coords',data);
     });
 

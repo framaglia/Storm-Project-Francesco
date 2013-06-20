@@ -3,22 +3,11 @@ package geoLocation;
 
 
 public class GeoCoord {
+	
 	double lat, lon;	// decimal degrees latitude and longitude
 	int latd, latm, lond, lonm; // latitude degrees and minutes, longitude degrees and minutes
 	double lats, lons;	// latitude and longitude seconds.
 
-
-
-	public GeoCoord(){
-		lat = 0;
-		lon = 0;
-		latd = 0;
-		lond = 0;
-		latm = 0;
-		lonm = 0;
-		lats = 0;
-		lons = 0;
-	}
 	
 	// construct from decimal degree input lat, lon
 	public GeoCoord(double x, double y){
