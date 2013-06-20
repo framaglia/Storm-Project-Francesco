@@ -6,8 +6,10 @@ import java.util.Map;
 
 import fi.foyt.foursquare.api.FoursquareApiException;
 import fourSquare.FoursQuareUtility;
+import geoLocation.GeoCoord;
 
 import socket.Socket;
+import twitter4j.GeoLocation;
 import twitter4j.Status;
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
@@ -20,7 +22,7 @@ public class NationalityTweetBolt extends BaseRichBolt{
 
 	private static final long serialVersionUID = 2L;
 	
-
+	
 	@Override
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
 		
@@ -30,8 +32,11 @@ public class NationalityTweetBolt extends BaseRichBolt{
 
 	@Override
 	public void execute(Tuple input) {
+		
 		final Status status = (Status) input.getValue(0);
 		String ll = Double.toString(status.getGeoLocation().getLatitude()) + "," + Double.toString(status.getGeoLocation().getLongitude());
+		GeoCoord geo = new GeoCoord(status.getGeoLocation().getLatitude(), status.getGeoLocation().getLongitude());
+		String geoString = geo.toDMSstring();
 		try {
 			FoursQuareUtility fourSquareUtility = new FoursQuareUtility();
 			String nation = fourSquareUtility.getTweetNationality(ll);
@@ -39,7 +44,8 @@ public class NationalityTweetBolt extends BaseRichBolt{
 			try {
 				
 				Socket socket = new Socket();
-				socket.getSocket().emit("message", nation);
+				//socket.getSocket().emit("message", nation);
+				socket.getSocket().emit("coords", geoString);
 				
 				
 			} catch (Exception e) {

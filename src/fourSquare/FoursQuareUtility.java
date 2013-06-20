@@ -1,6 +1,5 @@
 package fourSquare;
 
-import twitter4j.Status;
 import fi.foyt.foursquare.api.FoursquareApi;
 import fi.foyt.foursquare.api.FoursquareApiException;
 import fi.foyt.foursquare.api.entities.Category;
@@ -11,15 +10,18 @@ public class FoursQuareUtility{
 	
 	
 	public String getTweetNationality(String ll) throws FoursquareApiException{
+		
 		FoursquareApi foursquareApi = new FoursquareApi("X0P3PFF0IQ1DVWJQZVARXQXACIZC22VGRLQ3STKY3DMG1SHK", "RBV5S2B40HVXZHRF2MML255XFTRPVCUBSH2VB3QHBQANZU4V", "http://ilariomaiolo.it");
-
+		
 		String nationality = "";
 		fi.foyt.foursquare.api.Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
 		if (result.getMeta().getCode() == 200) {
+			
 			nationality = result.getResult().getVenues()[0].getLocation().getCountry().toString();
 		}
 		
 		return nationality;
+		
 	}
 	
 	

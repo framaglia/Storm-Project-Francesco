@@ -25,9 +25,15 @@ socket.on('connection', function(client){
 
      });
 
+    client.on("coords", function(data){
+        console.log(data);
+        client.broadcast.emit('coords',data);
+    });
+
     client.on('startStorm',function(){
         client.emit('nation',"Storm avviato");
     });
+
 
 
     client.on('disconnect', function(){
