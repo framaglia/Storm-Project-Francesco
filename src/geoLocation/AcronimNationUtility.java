@@ -157,7 +157,7 @@ public class AcronimNationUtility {
 		ACRONYM.put("Cyprus","CY");
 		ACRONYM.put("Democratic People's Republic of Korea","KP");
 		ACRONYM.put("Sweden","SE");
-		ACRONYM.put("Republic of Korea","KR");
+		ACRONYM.put("South Korea","KR");
 		ACRONYM.put("Cuba","CU");
 		ACRONYM.put("Svalbard and Jan Mayen","SJ");
 		ACRONYM.put("Sierra Leone","SL");
@@ -171,7 +171,7 @@ public class AcronimNationUtility {
 		ACRONYM.put("Lao People's Democratic Republic","LA");
 		ACRONYM.put("Serbia","RS");
 		ACRONYM.put("Congo","CG");
-		ACRONYM.put("Russian Federation","RU");
+		ACRONYM.put("Russia","RU");
 		ACRONYM.put("Switzerland","CH");
 		ACRONYM.put("Lebanon","LB");
 		ACRONYM.put("Rwanda","RW");
