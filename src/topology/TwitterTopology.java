@@ -10,9 +10,6 @@ import bolt.CategoryTweetBolt;
 import bolt.NationalityTweetBolt;
 
 public class TwitterTopology {
-
-	
-	private String category;
 	
 	
 	public static void main (String[] args){
@@ -20,23 +17,8 @@ public class TwitterTopology {
 		TwitterTopology twitterTopology = new TwitterTopology();
 		Socket socket = new Socket(twitterTopology);
 		
-		
-//		while(twitterTopology.getCategory() == null){
-//			
-//		}
-//		
-//		try {
-//			executeStorm(twitterTopology.getCategory());
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
-	
-	public TwitterTopology(){
-		this.category = null;
-	}
-	
+
 	public static void executeStorm(String category) throws Exception {
 
 		final TopologyBuilder builder = new TopologyBuilder();
@@ -59,13 +41,6 @@ public class TwitterTopology {
 		Utils.sleep(5 * 60 * 1000);
 		cluster.shutdown();
 
-	}
-	public  String getCategory() {
-		return category;
-	}
-
-	public  void setCategory(String category) {
-		this.category = category;
 	}
 
 

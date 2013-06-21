@@ -88,7 +88,6 @@ public class Socket implements IOCallback {
 		if (event.equals("startStorm")){
 			try {
 				JSONObject json = ((JSONObject) args[0]);
-				this.twtp.setCategory(json.getString("cat"));
 				System.out.println(event + " " + json.getString("cat"));
 				try {
 					this.twtp.executeStorm(json.getString("cat"));
