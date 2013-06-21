@@ -62,8 +62,6 @@ public class NationalityTweetBolt extends BaseRichBolt{
 			}
 			try {
 				
-				//Socket socket = new Socket();
-				//socket.getSocket().emit("message", nation);
 				socket.getSocket().emit("coords", json);
 				
 				

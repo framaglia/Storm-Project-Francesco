@@ -90,7 +90,10 @@ public class Socket implements IOCallback {
 				JSONObject json = ((JSONObject) args[0]);
 				System.out.println(event + " " + json.getString("cat"));
 				try {
-					this.twtp.executeStorm(json.getString("cat"));
+					
+					String category = json.getString("cat");
+					this.twtp.executeStorm(category);
+				
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

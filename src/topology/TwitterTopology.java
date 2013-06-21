@@ -15,7 +15,7 @@ public class TwitterTopology {
 	public static void main (String[] args){
 		
 		TwitterTopology twitterTopology = new TwitterTopology();
-		Socket socket = new Socket(twitterTopology);
+		final Socket socket = new Socket(twitterTopology);
 		
 	}
 
