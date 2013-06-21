@@ -10,15 +10,29 @@ import io.socket.SocketIOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import topology.TwitterTopology;
+
 
 public class Socket implements IOCallback {
 	
 	private SocketIO socket;
-	
+	private TwitterTopology twtp;
 
 	public Socket()  {
 		socket = new SocketIO();
 		
+		try {
+			socket.connect("http://127.0.0.1:3000/", this);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+	}
+	public Socket(TwitterTopology t)  {
+		socket = new SocketIO();
+		this.twtp = t;
 		try {
 			socket.connect("http://127.0.0.1:3000/", this);
 		} catch (MalformedURLException e) {
@@ -70,9 +84,27 @@ public class Socket implements IOCallback {
 
 	@Override
 	public void on(String event, IOAcknowledge ack, Object... args) {
-		System.out.println("Server triggered event '" + event + "'");
+		
+		if (event.equals("startStorm")){
+			try {
+				JSONObject json = ((JSONObject) args[0]);
+				this.twtp.setCategory(json.getString("cat"));
+				System.out.println(event + " " + json.getString("cat"));
+				try {
+					this.twtp.executeStorm(json.getString("cat"));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 	}
 	
-
 	
 }

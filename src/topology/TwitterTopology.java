@@ -1,5 +1,6 @@
 package topology;
 
+import socket.Socket;
 import spout.TwitterSpout;
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
@@ -10,13 +11,30 @@ import bolt.NationalityTweetBolt;
 
 public class TwitterTopology {
 
+	
+	private String category;
+	
+	
 	public static void main (String[] args){
-		try {
-			executeStorm("Bar");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		TwitterTopology twitterTopology = new TwitterTopology();
+		Socket socket = new Socket(twitterTopology);
+		
+		
+//		while(twitterTopology.getCategory() == null){
+//			
+//		}
+//		
+//		try {
+//			executeStorm(twitterTopology.getCategory());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	}
+	
+	public TwitterTopology(){
+		this.category = null;
 	}
 	
 	public static void executeStorm(String category) throws Exception {
@@ -42,5 +60,13 @@ public class TwitterTopology {
 		cluster.shutdown();
 
 	}
+	public  String getCategory() {
+		return category;
+	}
+
+	public  void setCategory(String category) {
+		this.category = category;
+	}
+
 
 }

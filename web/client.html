@@ -38,11 +38,11 @@
 	
 
 function drawWorld(){
-	paper = Raphael(10, 10, 1000, 400);
-	paper.rect(0, 0, 1000, 400, 10).attr({stroke: "none",fill: "0-#9bb7cb-#adc8da"});
-	for (var country in worldmap.shapes) {
-		paper.path(worldmap.shapes[country]).attr({stroke: "#ccc6ae", fill: "#ffffff", "stroke-opacity": 1});
-    }
+	//paper = Raphael(10, 10, 1000, 400);
+	// paper.rect(0, 0, 1000, 400, 10).attr({stroke: "none",fill: "0-#9bb7cb-#adc8da"});
+	// for (var country in worldmap.shapes) {
+	// 	paper.path(worldmap.shapes[country]).attr({stroke: "#ccc6ae", fill: "#ffffff", "stroke-opacity": 1});
+ //    }
 			
 				
 }
@@ -59,7 +59,7 @@ function drawWorld(){
          
 		 
 		var pointsArray = [];
-		var started = false;
+	
 		var socket = io.connect("http://localhost:3000");
 
 		socket.on('connect', function(){
@@ -74,8 +74,8 @@ function drawWorld(){
    		 socket.on('nation', function(data){ 
         
        		console.log('message received: ' + data);
-       		if(started){
-        		document.getElementById('resultField').value = data;}
+       		
+        		document.getElementById('resultField').value = data;
     	});
 
        socket.on('coords',function(data){
@@ -175,13 +175,15 @@ function drawWorld(){
     
 		function startStorm(){
 
-			started = !started;
-			socket.emit('startStorm');
+			var data = document.getElementById('category').value;
+            var jsonData = {'cat': data};
+
+			socket.emit('startStorm',jsonData);
 
     }
 
 </script>
-
+<input type="text" id="category" style="margin-top: 46px; margin-left: 5px"><button id="start" onclick="startStorm()" style="margin-left: 30px; margin-top: 50px">Start</button></input>
 
 	</body>
 	</html>					

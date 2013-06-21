@@ -31,8 +31,8 @@ socket.on('connection', function(client){
         client.broadcast.emit('coords',data);
     });
 
-    client.on('startStorm',function(){
-        client.emit('nation',"Storm avviato");
+    client.on('startStorm',function(data){
+        client.broadcast.emit('startStorm',data);
     });
 
 
@@ -40,5 +40,6 @@ socket.on('connection', function(client){
     client.on('disconnect', function(){
         console.log('connection closed');
     });
+
 
 });
