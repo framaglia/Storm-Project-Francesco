@@ -29,7 +29,7 @@ public class Socket implements IOCallback {
 		}
 	
 		
-	}
+	} 
 	
 	public Socket(TwitterTopology t)  {
 		socket = new SocketIO();
