@@ -30,9 +30,11 @@ public class Socket implements IOCallback {
 	
 		
 	}
+	
 	public Socket(TwitterTopology t)  {
 		socket = new SocketIO();
 		this.twtp = t;
+		
 		try {
 			socket.connect("http://127.0.0.1:3000/", this);
 		} catch (MalformedURLException e) {

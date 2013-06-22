@@ -24,6 +24,26 @@ public class FoursQuareUtility{
 		
 	}
 	
+public String getTweetCategory(String ll,String category) throws FoursquareApiException{
+		
+		FoursquareApi foursquareApi = new FoursquareApi("X0P3PFF0IQ1DVWJQZVARXQXACIZC22VGRLQ3STKY3DMG1SHK", "RBV5S2B40HVXZHRF2MML255XFTRPVCUBSH2VB3QHBQANZU4V", "http://ilariomaiolo.it");
+		
+		String resultCat = "";
+		fi.foyt.foursquare.api.Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
+		if (result.getMeta().getCode() == 200) {
+			for (CompactVenue venue : result.getResult().getVenues()) {
+				for (Category cat : venue.getCategories()){
+					if(cat.getName().equals(category)) 
+						 resultCat = cat.getName().toString();
+
+				}
+		}
+		
+		}
+		return resultCat;
+
+	}
+	
 	
 	
 	

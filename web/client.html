@@ -9,57 +9,64 @@
     <script type="text/javascript" src="world.js"></script>
 	<script type="text/javascript" src="canvas.js"></script>
 	<script type="text/javascript" src="colorScale.js"></script>
-
+	<link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="countdown/jquery.countdown.css" />
     <script type="text/javascript" src="raphael-min.js"></script>
-    <style media="screen">
-            #latlon-form {
-                position: absolute;
-                top: 430px;
-            }
-            #latlon-form input {
-                font-size: 14px;
-                width: 200px;
-            }
-            #latlon-form button {
-                font-size: 14px;
-            }
-            #cities {
-                position: absolute;
-                top: 470px;
-                margin: 0 10px;
-                padding: 0;
-                list-style: none;
-            }
-            #cities a {
-                color: #ccf;
-            }
-        </style>
+    <script src="countdown/jquery.countdown.js"></script>
+    <script src="js/script.js"></script>
+	<script src="selectCategory.js"></script>
+    <script src="colorNation.js"></script>
+	<script src="generateStatistics.js"></script>
+	<script src="drawChart.js"></script>
+	<script src="pie.js"></script>
+	 
+	
+	<style type="text/css">
+.paper{
+float:left;
+}
+
+
+#selectCategory{
+margin-top:200px;
+
+}
+
+
+#pie{
+
+	width:450px;
+	margin-right:53px;
+    margin-top:-227px;
+	float:right;
+}
+
+</style>
+
 <script>
 	
 
 function drawWorld(){
-	//paper = Raphael(10, 10, 1000, 400);
-	// paper.rect(0, 0, 1000, 400, 10).attr({stroke: "none",fill: "0-#9bb7cb-#adc8da"});
-	// for (var country in worldmap.shapes) {
-	// 	paper.path(worldmap.shapes[country]).attr({stroke: "#ccc6ae", fill: "#ffffff", "stroke-opacity": 1});
- //    }
-			
+	paper = Raphael(10, 10, 975, 400);
+	paper.canvas.className.baseVal="paper";
+	for (var country in worldmap.shapes) {
+	paper.path(worldmap.shapes[country]).attr({stroke: "#ccc6ae", fill: "#ffffff", "stroke-opacity": 1});
+    }
+		
+		
 				
 }
 
 </script>
-	</head>
-	<body onload="drawWorld()">
-
-
+</head>
+<body onload="drawWorld()">
 		<script src="http://127.0.0.1:3000/socket.io/socket.io.js"> </script>
-
 		<script>
 
          
-		 
+
 		var pointsArray = [];
-	
+
 		var socket = io.connect("http://localhost:3000");
 
 		socket.on('connect', function(){
@@ -79,89 +86,10 @@ function drawWorld(){
     	});
 
        socket.on('coords',function(data){
-          //var dataJson = JSON.parse(data);
           console.log(data);
-         
-                var r = paper;
-                var over = function () {
-                    this.c = this.c || this.attr("fill");
-                    this.stop().animate({fill: "#bacabd"}, 500);
-                },
-                    out = function () {
-                        this.stop().animate({fill: this.c}, 500);
-                    };
-                r.setStart();
-                
-                var world = r.setFinish();
-                world.hover(over, out);
-                world.getXY = function (lat, lon) {
-                    return {
-                        cx: lon * 2.6938 + 465.4,
-                        cy: lat * -2.6938 + 227.066
-                    };
-                };
-                world.getLatLon = function (x, y) {
-                    return {
-                        lat: (y - 227.066) / -2.6938,
-                        lon: (x - 465.4) / 2.6938
-                    };
-                };
-                var latlonrg = /(\d+(?:\.\d+)?)[\xb0\s]?\s*(?:(\d+(?:\.\d+)?)['\u2019\u2032\s])?\s*(?:(\d+(?:\.\d+)?)["\u201d\u2033\s])?\s*([SNEW])?/i;
-        
-                world.parseLatLon = function (latlon) {
-                    var m = String(latlon).split(latlonrg),
-                        lat = m && +m[1] + (m[2] || 0) / 60 + (m[3] || 0) / 3600;
-                    if (m[4].toUpperCase() == "S") {
-                        lat = -lat;
-                    }
-                    var lon = m && +m[6] + (m[7] || 0) / 60 + (m[8] || 0) / 3600;
-                    if (m[9].toUpperCase() == "W") {
-                        lon = -lon;
-                    }
-          
-                    return this.getXY(lat, lon);
-                };
-                    
-					var ll = data["ll"];
-					var acr = data["acr"];
-					
-				
-									
-					
-					
-					var country = worldmap["shapes"][acr];
-					var newPath =	r.path(country)
-					console.log(acr);
-					var colore = color["colors"][acr];
-					 
-				    var colorSommato = hex2Int(colore);
-					color["colors"][acr] = colorSommato;
-					console.log(colorSommato)
-					newPath.stop().animate({fill: colorSommato,stroke: "none"});
-					
-				    var llDot = world.parseLatLon(ll);
-					
-                    if(pointsArray.length === 0){
-					var dot = r.circle().attr({fill: "r#FE7727:50-#F57124:100", stroke: "#fff", "stroke-width": 2});
-					
-                    //Disegnamo i punti
-					dot.stop().attr(llDot).animate({r: 2}, 1000, "elastic");
-                    //llDot.r = 0;
-					
-					}
-					
-					
-					for(var cont=0;cont<pointsArray.length;cont++){
-					
-					var dot = r.circle().attr({fill: "r#FE7727:50-#F57124:100", stroke: "#fff", "stroke-width": 2});
-					dot.stop().attr(pointsArray[cont]).animate({r: 2}, 1000, "elastic");
-					
-					}
-                    
-					pointsArray.push(llDot);
-					console.log(pointsArray.length)
+		  colorNation(data);
+		  generateStatistics(data);
 
-                
             
   
        });
@@ -174,16 +102,125 @@ function drawWorld(){
     	});
     
 		function startStorm(){
-
+			startCountDown();
 			var data = document.getElementById('category').value;
+			document.getElementById("category").style.display = "none";
             var jsonData = {'cat': data};
-
 			socket.emit('startStorm',jsonData);
 
     }
 
 </script>
-<input type="text" id="category" style="margin-top: 46px; margin-left: 5px"><button id="start" onclick="startStorm()" style="margin-left: 30px; margin-top: 50px">Start</button></input>
+<div id="pie">
+	<div id="countdown"></div>
+</div>
+		
+<div id="selectCategory">
+		<input type="text" id="category" style="margin-top: 46px; margin-left: 5px;display:none"></input>
+	
+<select id="subCategory" onChange="openSubCategory()">
+  <option value="0">Select Category...</option>
+  <option value="1">Arts & Entertainment</option>
+  <option value="2">College & University</option>
+  <option value="3">Food</option>
+  <option value="4">Nightlife Spots</option>
+  <option value="5">Shops & Services</option>	   
+  <option value="6">Travel & Transport</option>
+</select>
 
+<select id="subCategoryArts" style="display:none;" onChange="selectSubCategory('Arts')" >
+ <option value="0">Select SubCategory...</option>
+  <option value="1">Museum</option>
+  <option value="2">Arcade</option>
+  <option value="3">Art Gallery</option>
+  <option value="4">Bowling Alley</option>
+  <option value="5">Casino</option>
+  <option value="6">Music Venue</option>
+  <option value="7">Stadium</option>
+  <option value="8">Football Stadium</option>	   
+  <option value="9">Soccer Stadium</option>
+  <option value="10">Tennis</option>
+</select>
+
+<select id="subCategoryCollege" style="display:none;" onChange="selectSubCategory('College')"  >
+ <option value="0">Select SubCategory...</option>
+  <option value="1">Law School</option>
+  <option value="2">Arcade</option>
+  <option value="3">College Engineering Building</option>
+  <option value="4">College Cafeteria</option>
+  <option value="5">Community College</option>
+  <option value="6">College Stadium</option>
+  <option value="7">Medical School</option>
+  <option value="8">Student Center</option>	   
+  <option value="9">General College & University</option>
+  <option value="10">Fraternity House</option>
+</select>
+
+
+<select id="subCategoryNight" style="display:none;" onChange="selectSubCategory('Night')" >
+ <option value="0">Select SubCategory...</option>
+  <option value="1">Bar</option>
+  <option value="2">Cocktail Bar</option>
+  <option value="3">Gay Bar</option>
+  <option value="4">Pub</option>
+  <option value="5">Whisky Bar</option>
+  <option value="6">Lounge</option>
+  <option value="7">Strip Club</option>
+  <option value="8">Sports Bar</option>	   
+  <option value="9">Wine Bar</option>
+  <option value="10">Dive Bar</option>
+</select>
+
+
+<select id="subCategoryFood" style="display:none;" onChange="selectSubCategory('Food')" >
+ <option value="0">Select SubCategory...</option>
+  <option value="1">Restaurant</option>
+  <option value="2">Coffee Shop</option>
+  <option value="3">Taco Place</option>
+  <option value="4">Italian Restaurant</option>
+  <option value="5">Pizza Place</option>
+  <option value="6">Distillery</option>
+  <option value="7">Diner</option>
+  <option value="8">Sports Bar</option>	   
+  <option value="9">Ice Cream Shop</option>
+  <option value="10">Japanese Restaurant</option>
+</select>
+
+
+<select id="subCategoryTravel" style="display:none;" onChange="selectSubCategory('Travel')" >
+ <option value="0">Select SubCategory...</option>
+  <option value="1">Airport</option>
+  <option value="2">Plane</option>
+  <option value="3">General Travel</option>
+  <option value="4">Taxi</option>
+  <option value="5">Hotel</option>
+  <option value="6">Bus Station</option>
+  <option value="7">Bed & Breakfast</option>
+  <option value="8">Motel</option>	   
+  <option value="9">Road</option>
+  <option value="10">Train Station</option>
+</select>
+
+<select id="subCategoryShop" style="display:none;" onChange="selectSubCategory('Shop')" >
+ <option value="0">Select SubCategory...</option>
+  <option value="1">Auditorium</option>
+  <option value="2">Library</option>
+  <option value="3">Hospital</option>
+  <option value="4">Government Building</option>
+  <option value="5">Factory</option>
+  <option value="6">Office</option>
+  <option value="7">Cafeteria</option>
+  <option value="8">Monument / Landmark</option>	   
+  <option value="9">Mosque</option>
+  <option value="10">Church</option>
+</select>
+
+<button id="start" onclick="startStorm()" style="margin-left: 30px; margin-top: 50px">Start</button>
+
+
+
+		</div>
+		
+		
 	</body>
 	</html>					
