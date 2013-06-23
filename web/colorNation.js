@@ -42,7 +42,7 @@ function colorNation(data){
 					var ll = data["ll"];
 					var acr = data["acr"];
 					var country = worldmap["shapes"][acr];
-					var newPath =	r.path(country)
+					var newPath =	r.path(country);
 					console.log(acr);
 					var colore = color["colors"][acr];
 				    var colorSommato = hex2Int(colore);

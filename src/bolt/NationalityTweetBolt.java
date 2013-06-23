@@ -31,10 +31,7 @@ public class NationalityTweetBolt extends BaseRichBolt{
 
 	@Override
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
-		
-
-
-	}
+		}
 
 	@Override
 	public void execute(Tuple input) {
@@ -44,6 +41,7 @@ public class NationalityTweetBolt extends BaseRichBolt{
 		String ll = Double.toString(status.getGeoLocation().getLatitude()) + "," + Double.toString(status.getGeoLocation().getLongitude());
 		GeoCoord geo = new GeoCoord(status.getGeoLocation().getLatitude(), status.getGeoLocation().getLongitude());
 		String geoString = geo.toDMSstring();
+		
 		try {
 			json.put("ll", geoString);
 		} catch (JSONException e1) {
@@ -72,14 +70,7 @@ public class NationalityTweetBolt extends BaseRichBolt{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
-			
-//			System.out.println(nation);
-//			collector.emit(input, new Values(nation));
-//			
-			
+				
 			
 		} catch (FoursquareApiException e) {
 			// TODO Auto-generated catch block

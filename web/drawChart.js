@@ -19,7 +19,7 @@ function drawChart(worldValues){
 	var table = document.createElement("table");
 	var tbody = document.createElement("tbody");
 	
-	for(var cont = 0;cont<graphValues.length;cont++){
+	for(var cont = 0; cont < graphValues.length; cont++){
 		var tr = document.createElement("tr");
 		var th = document.createElement("th");
 		var nameNation = document.createTextNode(graphValues[cont]["name"]);

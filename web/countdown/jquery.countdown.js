@@ -47,9 +47,9 @@
 			
 			// Number of minutes left
 			m = Math.floor(left / minutes);
-			if((m-59) !==0 )	{	
+
 			updateDuo(4, 5, m-59);
-			}
+
 			left -= m*minutes;
 			
 			
@@ -64,7 +64,7 @@
 			
 			setTimeout(tick, 1000);
 			
-			if((m-59) === 0 && s===0 ){
+			if((m-59) === 0 && s === 0 ){
 			isFinish = true;
 			}
 			}
@@ -72,6 +72,7 @@
 			$("#countdown").hide();
 		    var	newList = listStatisticsNation;
 			drawChart(newList);
+			console.log(listStatisticsNation);
 		    
 			
 			}
