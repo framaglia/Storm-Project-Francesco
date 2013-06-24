@@ -6,7 +6,7 @@ import fi.foyt.foursquare.api.entities.Category;
 import fi.foyt.foursquare.api.entities.CompactVenue;
 import fi.foyt.foursquare.api.entities.VenuesSearchResult;
 
-public class FoursQuareUtility{	
+public class FourSquareUtility{	
 	
 	
 	public String getTweetNationality(String ll) throws FoursquareApiException{
@@ -24,24 +24,26 @@ public class FoursQuareUtility{
 		
 	}
 	
-public String getTweetCategory(String ll,String category) throws FoursquareApiException{
-		
+	public String getBestCategory(String ll) throws FoursquareApiException{
+		String category = "";
 		FoursquareApi foursquareApi = new FoursquareApi("X0P3PFF0IQ1DVWJQZVARXQXACIZC22VGRLQ3STKY3DMG1SHK", "RBV5S2B40HVXZHRF2MML255XFTRPVCUBSH2VB3QHBQANZU4V", "http://ilariomaiolo.it");
-		
-		String resultCat = "";
 		fi.foyt.foursquare.api.Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
 		if (result.getMeta().getCode() == 200) {
-			for (CompactVenue venue : result.getResult().getVenues()) {
-				for (Category cat : venue.getCategories()){
-					if(cat.getName().equals(category)) 
-						 resultCat = cat.getName().toString();
-
+			Double distanceMin = 2000000.0;
+			for (CompactVenue venue : result.getResult().getVenues()){
+				if(venue.getLocation().getDistance() < distanceMin){
+					category = venue.getCategories()[0].getName();
+					distanceMin = venue.getLocation().getDistance();
 				}
+			}
+			
 		}
 		
-		}
-		return resultCat;
-
+		
+		
+		
+		return category;
+		
 	}
 	
 	
@@ -58,7 +60,7 @@ public String getTweetCategory(String ll,String category) throws FoursquareApiEx
 			for (CompactVenue venue : result.getResult().getVenues()) {
 				for (Category cat : venue.getCategories()){
 					if(cat.getName().equals(category)) isValidVenue=true;
-
+					
 				}
 
 			}

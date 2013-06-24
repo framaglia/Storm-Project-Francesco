@@ -8,6 +8,7 @@ import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
 import bolt.CategoryTweetBolt;
 import bolt.NationalityTweetBolt;
+import bolt.NoCategoryTweetBolt;
 
 public class TwitterTopology {
 	
@@ -26,9 +27,11 @@ public class TwitterTopology {
 		CategoryTweetBolt categoryBolt = new CategoryTweetBolt();
 		NationalityTweetBolt nationBolt = new NationalityTweetBolt();
 		categoryBolt.setCategory(category);
+		NoCategoryTweetBolt noCategoryTweetBolt = new NoCategoryTweetBolt();
 		
 		
 		builder.setSpout("tweetLL", new TwitterSpout());
+		builder.setBolt("noCategoryTweetBolt", noCategoryTweetBolt).shuffleGrouping("tweetLL");
 		builder.setBolt("categoryTweet",categoryBolt).shuffleGrouping("tweetLL");
 		builder.setBolt("nationalityTweet",nationBolt).shuffleGrouping("categoryTweet");
 	

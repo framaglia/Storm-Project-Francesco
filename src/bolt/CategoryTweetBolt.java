@@ -3,7 +3,7 @@ package bolt;
 import java.util.Map;
 
 import fi.foyt.foursquare.api.FoursquareApiException;
-import fourSquare.FoursQuareUtility;
+import fourSquare.FourSquareUtility;
 
 import twitter4j.Status;
 
@@ -56,7 +56,7 @@ public class CategoryTweetBolt extends BaseRichBolt{
 	public boolean isValidCategory(Status status){
 		String ll = Double.toString(status.getGeoLocation().getLatitude()) + "," + Double.toString(status.getGeoLocation().getLongitude());
 		try {
-			FoursQuareUtility fourSquareUtility = new FoursQuareUtility();
+			FourSquareUtility fourSquareUtility = new FourSquareUtility();
 			return fourSquareUtility.isValidCategoryVenue(ll, category);
 		} 
 			catch (FoursquareApiException e) {

@@ -35,6 +35,12 @@ socket.on('connection', function(client){
         client.broadcast.emit('startStorm',data);
     });
 
+    client.on('category',function(data){
+        var ll = data["ll"];
+        var cat = data["category"];
+        console.log(ll+" "+cat);
+        client.broadcast.emit('category',data);
+    })
 
 
     client.on('disconnect', function(){
