@@ -48,7 +48,7 @@ public String getTweetCategory(String ll,String category) throws FoursquareApiEx
 	
 	
 	
-	public boolean isValidVenue(String ll,String category) throws FoursquareApiException {
+	public boolean isValidCategoryVenue(String ll,String category) throws FoursquareApiException {
 
 		boolean isValidVenue = false;
 
@@ -69,6 +69,27 @@ public String getTweetCategory(String ll,String category) throws FoursquareApiEx
 				System.out.println("  type: " + result.getMeta().getErrorType());
 				System.out.println("  detail: " + result.getMeta().getErrorDetail()); 
 			}
+		
+		return isValidVenue;
+	}
+	
+	public boolean isValidNationVenue(String ll,String nation) throws FoursquareApiException{
+		
+		boolean isValidVenue = false;
+		
+		FoursquareApi foursquareApi = new FoursquareApi("X0P3PFF0IQ1DVWJQZVARXQXACIZC22VGRLQ3STKY3DMG1SHK", "RBV5S2B40HVXZHRF2MML255XFTRPVCUBSH2VB3QHBQANZU4V", "http://ilariomaiolo.it");
+		fi.foyt.foursquare.api.Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
+		if (result.getMeta().getCode() == 200) {
+			for (CompactVenue venue : result.getResult().getVenues()) {
+				
+					if(venue.getLocation().getCountry() == nation) isValidVenue=true;
+
+				}
+
+			}
+		
+		
+		
 		
 		return isValidVenue;
 	}

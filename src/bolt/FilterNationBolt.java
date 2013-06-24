@@ -15,11 +15,11 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
-public class CategoryTweetBolt extends BaseRichBolt{
+public class FilterNationBolt extends BaseRichBolt{
 
 	private static final long serialVersionUID = 1L;
 	private OutputCollector collector;
-	private String category;
+	private String nation;
 	
 
 	@Override
@@ -32,8 +32,13 @@ public class CategoryTweetBolt extends BaseRichBolt{
 	@Override
 	public void execute(Tuple input) {
 		final Status status = (Status) input.getValue(0);
-		if(isValidCategory(status))
-			collector.emit(input, new Values(status));
+		try {
+			if(isValidNation(status))
+				collector.emit(input, new Values(status));
+		} catch (FoursquareApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -43,25 +48,20 @@ public class CategoryTweetBolt extends BaseRichBolt{
 	}
 
 	
-	public String getCategory() {
-		return category;
+	
+	
+	public String getNation() {
+		return nation;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setNation(String nation) {
+		this.nation = nation;
 	}
-	
-	
-	
-	public boolean isValidCategory(Status status){
+
+	public boolean isValidNation(Status status) throws FoursquareApiException{
 		String ll = Double.toString(status.getGeoLocation().getLatitude()) + "," + Double.toString(status.getGeoLocation().getLongitude());
-		try {
-			FoursQuareUtility fourSquareUtility = new FoursQuareUtility();
-			return fourSquareUtility.isValidCategoryVenue(ll, category);
-		} 
-			catch (FoursquareApiException e) {
-				return false;
-			}
+		FoursQuareUtility fourSquareUtility = new FoursQuareUtility();
+		return fourSquareUtility.isValidNationVenue(ll, nation);
 		
 
 	}
