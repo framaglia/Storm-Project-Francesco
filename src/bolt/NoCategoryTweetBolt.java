@@ -19,16 +19,21 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
+import backtype.storm.tuple.Values;
 
 public class NoCategoryTweetBolt extends BaseRichBolt{
 
 	private static final long serialVersionUID = 2L;
 	private static final Socket socket = new Socket();
-
+	private OutputCollector collector;
+	
 
 	@Override
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
-		}
+		this.collector = collector;
+
+
+	}
 
 	@Override
 	public void execute(Tuple input) {
@@ -71,7 +76,7 @@ public class NoCategoryTweetBolt extends BaseRichBolt{
 			
 		
 		socket.getSocket().emit("category", json);
-		
+		collector.emit(input, new Values(status));
 		
 		
 		

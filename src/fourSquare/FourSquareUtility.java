@@ -32,7 +32,12 @@ public class FourSquareUtility{
 			Double distanceMin = 2000000.0;
 			for (CompactVenue venue : result.getResult().getVenues()){
 				if(venue.getLocation().getDistance() < distanceMin){
-					category = venue.getCategories()[0].getName();
+					try {
+						category = venue.getCategories()[0].getName();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						category = "NOT FOUND";
+					}
 					distanceMin = venue.getLocation().getDistance();
 				}
 			}

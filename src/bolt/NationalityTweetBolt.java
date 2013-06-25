@@ -21,17 +21,22 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
+import backtype.storm.tuple.Values;
 
 public class NationalityTweetBolt extends BaseRichBolt{
 
 	private static final long serialVersionUID = 2L;
 	private static final Map<String,String> ACRONYM = new HashMap<String, String>(new AcronimNationUtility().getACRONYM());
 	private static final Socket socket = new Socket();
-
+	private OutputCollector collector;
+	
 
 	@Override
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
-		}
+		this.collector = collector;
+
+
+	}
 
 	@Override
 	public void execute(Tuple input) {

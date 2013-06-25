@@ -30,10 +30,10 @@ public class TwitterTopology {
 		NoCategoryTweetBolt noCategoryTweetBolt = new NoCategoryTweetBolt();
 		
 		
-		builder.setSpout("tweetLL", new TwitterSpout());
-		builder.setBolt("noCategoryTweetBolt", noCategoryTweetBolt).shuffleGrouping("tweetLL");
-		builder.setBolt("categoryTweet",categoryBolt).shuffleGrouping("tweetLL");
-		builder.setBolt("nationalityTweet",nationBolt).shuffleGrouping("categoryTweet");
+		builder.setSpout("tweetLL", new TwitterSpout(),10);
+		builder.setBolt("noCategoryTweetBolt", noCategoryTweetBolt,5).shuffleGrouping("tweetLL");
+		builder.setBolt("categoryTweet",categoryBolt,5).shuffleGrouping("tweetLL");
+		builder.setBolt("nationalityTweet",nationBolt,5).shuffleGrouping("categoryTweet");
 	
 		final Config conf = new Config();
 		final LocalCluster cluster = new LocalCluster();
