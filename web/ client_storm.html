@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" >
+	<title>Storm t4fsq</title>
+	<meta charset="utf-8" >
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js" ></script>
+    <script type="text/javascript" src="js/world.js" ></script>
+	<script type="text/javascript" src="js/worldStatistics/canvas.js" ></script>
+	<script src="js/categoryStatistics/chooseCategory.js" ></script>
+	<script src="js/worldStatistics/colorNation.js" ></script>
+	<script type="text/javascript" src="js/worldStatistics/colorScale.js" ></script>
+	<script src="js/worldStatistics/drawChart.js" ></script>
+	<script src="js/categoryStatistics/generateCategoryStatistics.js" ></script>
+	<script src="js/categoryStatistics/drawCategoryChart.js" ></script>
+	<script src="js/categoryStatistics/createDot.js" ></script>
+	<script src="js/worldStatistics/generateStatistics.js" ></script>
+	<link rel="stylesheet" href="css/styles.css" >
+    <link rel="stylesheet" href="countdown/jquery.countdown.css" >
+    <link rel="stylesheet" href="menu_assets/stylemenu.css" >
+    <script type="text/javascript" src="js/raphael-min.js" ></script>
+    <script src="countdown/jquery.countdown.js" ></script>
+    <script src="js/script.js" ></script>
+	<script src="js/pie.js" ></script>
+	<script src="js/worldStatistics/selectCategory.js" ></script>
+<script>
+
+
+function drawWorld(){
+	paper = Raphael(0, 0, 975, 400);
+	noCategoryPaper = Raphael(0, 400, 975, 400);
+	paper.canvas.className.baseVal="paper";
+	noCategoryPaper.canvas.className.baseVal="categoryPaper";
+	for (var country in worldmap.shapes) {
+	paper.path(worldmap.shapes[country]).attr({stroke: "#ccc6ae", fill: "#ffffff", "stroke-opacity": 1});
+	noCategoryPaper.path(worldmap.shapes[country]).attr({stroke: "#ccc6ae", fill: "#ffffff", "stroke-opacity": 1});
+    }
+
+
+
+}
+
+</script>
+
+
+
+<script type="text/javascript" charset="utf-8" >
+	function mix(i){
+		if(i===0){var a = 'Museum';}
+		if(i===1){var a = 'Arcade';}
+		if(i===2){var a = 'Art Gallery';}
+		if(i===3){var a = 'Bowling Alley';}
+		if(i===4){var a = 'Casino';}
+		if(i===5){var a = 'Music Venue';}
+		if(i===6){var a = 'Stadium';}
+		if(i===7){var a = 'Football Stadium';}
+		if(i===8){var a = 'Soccer Stadium';}
+		if(i===9){var a = 'Tennis';}
+		if(i===10){var a = 'Law School';}
+		if(i===11){var a = 'Arcade';}
+		if(i===12){var a = 'College Engineering Building';}
+		if(i===13){var a = 'College Cafeteria';}
+		if(i===14){var a = 'Community College';}
+		if(i===15){var a = 'College Stadium';}
+		if(i===16){var a = 'Medical School';}
+		if(i===17){var a = 'Student Center';}
+		if(i===18){var a = 'General College & University';}
+		if(i===19){var a = 'Fraternity House';}
+		if(i===20){var a = 'Bar';}
+		if(i===21){var a = 'Cocktail bar';}
+		if(i===22){var a = 'Gay Bar';}
+		if(i===23){var a = 'Pub';}
+		if(i===24){var a = 'Whisky Bar';}
+		if(i===25){var a = 'Lounge';}
+		if(i===26){var a = 'Strip Club';}
+		if(i===27){var a = 'Sports Bar';}
+		if(i===28){var a = 'Wine Bar';}
+		if(i===29){var a = 'Dive Bar';}
+	    if(i===30){var a = 'Restaurant';}
+	    if(i===31){var a = 'Coffee Shop';}
+	    if(i===32){var a = 'Taco Place';}
+	    if(i===33){var a = 'Italian Restaurant';}
+	    if(i===34){var a = 'Pizza Place';}
+	    if(i===35){var a = 'Distillery';}
+	    if(i===36){var a = 'Dinner';}
+	    if(i===37){var a = 'Sports Bar';}
+	    if(i===38){var a = 'Ice Cream Shop';}
+	    if(i===39){var a = 'Japanese Restaurant';}
+	    if(i===40){var a = 'Airport';}
+	    if(i===41){var a = 'Plane';}
+	    if(i===42){var a = 'General Travel';}
+	    if(i===43){var a = 'Taxi';}
+	    if(i===44){var a = 'Hotel';}
+	    if(i===45){var a = 'Bus Station';}
+	    if(i===46){var a = 'Bed & Breakfast';}
+	    if(i===47){var a = 'Motel';}
+	    if(i===48){var a = 'Road';}
+	    if(i===49){var a = 'Train Station';}
+	    if(i===50){var a = 'Auditorium';}
+	    if(i===51){var a = 'Library';}
+	    if(i===52){var a = 'Hospital';}
+	    if(i===53){var a = 'Government Building';}
+	    if(i===54){var a = 'Factory';}
+	    if(i===55){var a = 'Office';}
+	    if(i===56){var a = 'Cafeteria';}
+	    if(i===57){var a = 'Monument / Landmark';}
+	    if(i===58){var a = 'Mosque';}
+	    if(i===59){var a = 'Church';}
+    	console.log(a);
+		startStorm(a);
+		
+	}
+</script>
+</head>
+<body style="left:3px; top:59px; " >
+		<script src="http://127.0.0.1:3000/socket.io/socket.io.js" > </script>
+		<script>
+
+         
+
+		var pointsArray = [];
+
+		var socket = io.connect("http://localhost:3000");
+
+		socket.on('connect', function(){
+
+        	console.log('connected');
+        
+   		 });
+
+
+	   
+	      socket.on('category',function(data){
+          console.log(data);
+		  createDot(data);
+		  generateCategoryStatistics(data);
+
+            
+  
+       });
+
+   		 socket.on('nation', function(data){ 
+        
+       		console.log('message received: ' + data);
+       		
+        		document.getElementById('resultField').value = data;
+    	});
+
+       socket.on('coords',function(data){
+          console.log(data);
+		      colorNation(data);
+		      generateStatistics(data);
+
+            
+  
+       });
+   		
+
+    	socket.on('disconnect', function(){
+    	
+        	console.log('disconected');
+
+    	});
+    
+		function startStorm(a){
+			drawWorld();
+			startCountDown();
+			//var data = document.getElementById('category').value;
+			//document.getElementById("cssmenu").style.display = "none";
+			
+            var jsonData = {'cat': a};
+			socket.emit('startStorm',jsonData);
+
+    }
+
+</script>
+<div id="countdown" ></div>
+<div id="pie" style="left:1055px; top:385px; " ></div>
+<div id="pie1" style="left:1055px; top:651px; " ></div>
+
+
+
+<div id="cssmenu" style="width:auto; " class="click_to_fade" >
+<ul>
+   <li class="has-sub" ><a href="#" ><span>Arts &amp; Entertainment</span></a>
+      <ul>
+         <li><a href="#" onclick="mix(0)" ><span>Museum</span></a></li>
+         <li><a href="#" onclick="mix(1)" ><span>Arcade</span></a></li>
+         <li><a href="#" onclick="mix(2)" ><span>Art Gallery</span></a></li>
+         <li><a href="#" onclick="mix(3)" ><span>Bowling Alley</span></a></li>
+         <li><a href="#" onclick="mix(4)" ><span>Casino</span></a></li>
+         <li><a href="#" onclick="mix(5)" ><span>Music Venue</span></a></li>
+         <li><a href="#" onclick="mix(6)" ><span>Stadium</span></a></li>
+         <li><a href="#" onclick="mix(7)" ><span>Football Stadium</span></a></li>
+         <li><a href="#" onclick="mix(8)" ><span>Soccer Stadium</span></a></li>
+         <li class="last" ><a href="#" onclick="mix(9)" ><span>Tennis</span></a></li>
+      </ul>
+   </li>
+   
+   <li class="has-sub" ><a href="#" ><span>College &amp; University</span></a>
+      <ul>
+         <li><a href="#" onclick="mix(10)" ><span>Law School</span></a></li>
+         <li><a href="#" onclick="mix(11)" ><span>Arcade</span></a></li>
+         <li><a href="#" onclick="mix(12)" ><span>College Engineering Building</span></a></li>
+         <li><a href="#" onclick="mix(13)" ><span>College Cafeteria</span></a></li>
+         <li><a href="#" onclick="mix(14)" ><span>Community College</span></a></li>
+         <li><a href="#" onclick="mix(15)" ><span>College Stadium</span></a></li>
+         <li><a href="#" onclick="mix(16)" ><span>Medical School</span></a></li>
+         <li><a href="#" onclick="mix(17)" ><span>Student Center</span></a></li>
+         <li><a href="#" onclick="mix(18)" ><span>General College &amp; University</span></a></li>
+         <li class="last" ><a href="#" onclick="mix(19)" ><span>Fraternity House</span></a></li>
+      </ul>
+   </li>
+   
+   <li class="has-sub" ><a href="#" ><span>Nightlife Spots</span></a>
+      <ul>
+         <li><a href="#" onclick="mix(20)" ><span>Bar</span></a></li>
+         <li><a href="#" onclick="mix(21)" ><span>Cocktail bar</span></a></li>
+         <li><a href="#" onclick="mix(22)" ><span>Gay Bar</span></a></li>
+         <li><a href="#" onclick="mix(23)" ><span>Pub</span></a></li>
+         <li><a href="#" onclick="mix(24)" ><span>Whisky Bar</span></a></li>
+         <li><a href="#" onclick="mix(25)" ><span>Lounge</span></a></li>
+         <li><a href="#" onclick="mix(26)" ><span>Strip Club</span></a></li>
+         <li><a href="#" onclick="mix(27)" ><span>Sports Bar</span></a></li>
+         <li><a href="#" onclick="mix(28)" ><span>Wine Bar</span></a></li>
+         <li class="last" ><a href="#" onclick="mix(29)" ><span>Dive Bar</span></a></li>
+      </ul>
+   </li>
+
+   <li class="has-sub" ><a href="#" ><span>Food</span></a>
+      <ul>
+         <li><a href="#" onclick="mix(30)" ><span>Restaurant</span></a></li>
+         <li><a href="#" onclick="mix(31)" ><span>Coffee Shop</span></a></li>
+         <li><a href="#" onclick="mix(32)" ><span>Taco Place</span></a></li>
+         <li><a href="#" onclick="mix(33)" ><span>Italian Restaurant</span></a></li>
+         <li><a href="#" onclick="mix(34)" ><span>Pizza Place</span></a></li>
+         <li><a href="#" onclick="mix(35)" ><span>Distillery</span></a></li>
+         <li><a href="#" onclick="mix(36)" ><span>Dinner</span></a></li>
+         <li><a href="#" onclick="mix(37)" ><span>Sports Bar</span></a></li>
+         <li><a href="#" onclick="mix(38)" ><span>Ice Cream Shop</span></a></li>
+         <li class="last" ><a href="#" onclick="mix(39)" ><span>Japanese Restaurant</span></a></li>
+      </ul>
+   </li>   
+   
+    <li class="has-sub" ><a href="#" ><span>Travel &amp; Transport</span></a>
+      <ul>
+         <li><a href="#" onclick="mix(40)" ><span>Airport</span></a></li>
+         <li><a href="#" onclick="mix(41)" ><span>Plane</span></a></li>
+         <li><a href="#" onclick="mix(42)" ><span>General Travel</span></a></li>
+         <li><a href="#" onclick="mix(43)" ><span>Taxi</span></a></li>
+         <li><a href="#" onclick="mix(44)" ><span>Hotel</span></a></li>
+         <li><a href="#" onclick="mix(45)" ><span>Bus Station</span></a></li>
+         <li><a href="#" onclick="mix(46)" ><span>Bed &amp; Breakfast</span></a></li>
+         <li><a href="#" onclick="mix(47)" ><span>Motel</span></a></li>
+         <li><a href="#" onclick="mix(48)" ><span>Road</span></a></li>
+         <li class="last" ><a href="#" onclick="mix(49)" ><span>Train Station</span></a></li>
+      </ul>
+   </li>
+   
+   <li class="has-sub" ><a href="#" ><span>Shops &amp; Services</span></a>
+      <ul>
+         <li><a href="#" onclick="mix(50)" ><span>Auditorium</span></a></li>
+         <li><a href="#" onclick="mix(51)" ><span>Library</span></a></li>
+         <li><a href="#" onclick="mix(52)" ><span>Hospital</span></a></li>
+         <li><a href="#" onclick="mix(53)" ><span>Government Building</span></a></li>
+         <li><a href="#" onclick="mix(54)" ><span>Factory</span></a></li>
+         <li><a href="#" onclick="mix(55)" ><span>Office</span></a></li>
+         <li><a href="#" onclick="mix(56)" ><span>Cafeteria</span></a></li>
+         <li><a href="#" onclick="mix(57)" ><span>Monument / Landmark</span></a></li>
+         <li><a href="#" onclick="mix(58)" ><span>Mosque</span></a></li>
+         <li class="last" ><a href="#" onclick="mix(59)" ><span>Church</span></a></li>
+      </ul>
+   </li>   
+   
+   
+</ul></div>
+
+
+
+
+
+
+
+
+
+<img src="img/text1.png" alt="" style="position:absolute; left:86px; top:39px; width:603px; height:322px; " ></body></html>

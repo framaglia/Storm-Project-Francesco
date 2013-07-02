@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fi.foyt.foursquare.api.FoursquareApiException;
+import fourSquare.CategoryRetrievalUtility;
 import fourSquare.FourSquareUtility;
 import geoLocation.GeoCoord;
 
@@ -19,70 +20,69 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
-import backtype.storm.tuple.Values;
 
 public class NoCategoryTweetBolt extends BaseRichBolt{
 
 	private static final long serialVersionUID = 2L;
 	private static final Socket socket = new Socket();
 	private OutputCollector collector;
-	
+
 
 	@Override
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
-		this.collector = collector;
-
-
-	}
+		this.collector=collector;
+		}
 
 	@Override
 	public void execute(Tuple input) {
-		
+
 		JSONObject json = new JSONObject();
 		final Status status = (Status) input.getValue(0);
 		String ll = Double.toString(status.getGeoLocation().getLatitude()) + "," + Double.toString(status.getGeoLocation().getLongitude());
 		GeoCoord geo = new GeoCoord(status.getGeoLocation().getLatitude(), status.getGeoLocation().getLongitude());
 		String geoString = geo.toDMSstring();
-		
-	
+
+
 		try {
 			json.put("ll", geoString);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		FourSquareUtility fourSquareUtility = new FourSquareUtility();
-		
-			
+		CategoryRetrievalUtility categoryRetrieval = new CategoryRetrievalUtility();
+
+
+		String subCategory;
 		String category;
 		try {
-			category = fourSquareUtility.getBestCategory(ll);
-			System.out.println(category);
-			try {
-				json.put("category", category);
-			} catch (JSONException e) {
+			subCategory = fourSquareUtility.getBestCategory(ll);
+			if (!subCategory.equals("NOT FOUND")){
+				category = categoryRetrieval.getCategory(subCategory);
+				
+				try {
+					json.put("category", category);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				socket.getSocket().emit("category", json);
+			}
+
+			} catch (FoursquareApiException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} catch (FoursquareApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
-			
-		
-			
-		
-		socket.getSocket().emit("category", json);
-		collector.emit(input, new Values(status));
-		
-		
-		
+
+
+
+
+
 
 	}
-	
+
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
@@ -90,5 +90,5 @@ public class NoCategoryTweetBolt extends BaseRichBolt{
 	}
 
 
-	
+
 }

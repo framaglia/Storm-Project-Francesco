@@ -1,48 +1,62 @@
-.countdownHolder{
+.countdownHolder {
 	width:450px;
-	font: 40px/1.5 'Open Sans Condensed',sans-serif;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	font-size:40px;
+	line-height:1.5;
+	font-family:'Open Sans Condensed', sans-serif;
 	text-align:center;
 	letter-spacing:-3px;
-	margin-right:53px;
-    margin-top:151px;
+	margin-right:87px;
+	margin-left:160px;
+	margin-top:370px;
 	float:right;
+	position:absolute;
 }
 
-.position{
-	display: inline-block;
-	height: 1.6em;
-	overflow: hidden;
-	position: relative;
-	width: 1.05em;
+.position {
+	display:inline-block;
+	height:1.6em;
+	overflow:hidden;
+	position:relative;
+	width:1.05em;
 }
 
-.digit{
+.digit {
 	position:absolute;
 	display:block;
 	width:1em;
-	background-color:#444;
-	border-radius:0.2em;
+	background-color:#444444;
+	-webkit-border-top-left-radius:0.2em;
+	border-top-left-radius:0.2em;
+	-o-border-top-left-radius:0.2em;
+	-ms-border-top-left-radius:0.2em;
+	-moz-border-radius-topleft:0.2em;
+	-webkit-border-top-right-radius:0.2em;
+	border-top-right-radius:0.2em;
+	-o-border-top-right-radius:0.2em;
+	-ms-border-top-right-radius:0.2em;
+	-moz-border-radius-topright:0.2em;
+	-webkit-border-bottom-right-radius:0.2em;
+	border-bottom-right-radius:0.2em;
+	-o-border-bottom-right-radius:0.2em;
+	-ms-border-bottom-right-radius:0.2em;
+	-moz-border-radius-bottomright:0.2em;
+	-webkit-border-bottom-left-radius:0.2em;
+	border-bottom-left-radius:0.2em;
+	-o-border-bottom-left-radius:0.2em;
+	-ms-border-bottom-left-radius:0.2em;
+	-moz-border-radius-bottomleft:0.2em;
 	text-align:center;
-	color:#fff;
+	color:#FFFFFF;
 	letter-spacing:-1px;
 }
 
-.digit.static{
-	box-shadow:1px 1px 1px rgba(4, 4, 4, 0.35);
-	
-	background-image: linear-gradient(bottom, #3A3A3A 50%, #444444 50%);
-	background-image: -o-linear-gradient(bottom, #3A3A3A 50%, #444444 50%);
-	background-image: -moz-linear-gradient(bottom, #3A3A3A 50%, #444444 50%);
-	background-image: -webkit-linear-gradient(bottom, #3A3A3A 50%, #444444 50%);
-	background-image: -ms-linear-gradient(bottom, #3A3A3A 50%, #444444 50%);
-	
-	background-image: -webkit-gradient(
-		linear,
-		left bottom,
-		left top,
-		color-stop(0.5, #3A3A3A),
-		color-stop(0.5, #444444)
-	);
+.digit.static {
+	box-shadow:rgba(4, 4, 4, 0.347656) 1px 1px 1px;
+	background-image:-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0.5, rgb(58, 58, 58)), color-stop(0.5, rgb(68, 68, 68)));
+	background-image:-moz-linear-gradient( top, (null)), (null)) ));
 }
 
 /**
@@ -50,36 +64,67 @@
  * of the countdown that you don't need.
  */
 
-.countDays{ /* display:none !important;*/ }
-.countDiv0{ /* display:none !important;*/ }
-.countHours{}
-.countDiv1{}
-.countMinutes{}
-.countDiv2{}
-.countSeconds{}
+.countDays {
+}
 
+.countDiv0 {
+}
 
-.countDiv{
+.countHours {
+}
+
+.countDiv1 {
+}
+
+.countMinutes {
+}
+
+.countDiv2 {
+}
+
+.countSeconds {
+}
+
+.countDiv {
 	display:inline-block;
 	width:16px;
 	height:1.6em;
 	position:relative;
 }
 
-.countDiv:before,
-.countDiv:after{
+.countDiv::before, .countDiv::after {
 	position:absolute;
 	width:5px;
 	height:5px;
-	background-color:#444;
-	border-radius:50%;
+	background-color:#444444;
+	-webkit-border-top-left-radius:50%;
+	border-top-left-radius:50%;
+	-o-border-top-left-radius:50%;
+	-ms-border-top-left-radius:50%;
+	-moz-border-radius-topleft:50%;
+	-webkit-border-top-right-radius:50%;
+	border-top-right-radius:50%;
+	-o-border-top-right-radius:50%;
+	-ms-border-top-right-radius:50%;
+	-moz-border-radius-topright:50%;
+	-webkit-border-bottom-right-radius:50%;
+	border-bottom-right-radius:50%;
+	-o-border-bottom-right-radius:50%;
+	-ms-border-bottom-right-radius:50%;
+	-moz-border-radius-bottomright:50%;
+	-webkit-border-bottom-left-radius:50%;
+	border-bottom-left-radius:50%;
+	-o-border-bottom-left-radius:50%;
+	-ms-border-bottom-left-radius:50%;
+	-moz-border-radius-bottomleft:50%;
 	left:50%;
 	margin-left:-3px;
 	top:0.5em;
-	box-shadow:1px 1px 1px rgba(4, 4, 4, 0.5);
+	box-shadow:rgba(4, 4, 4, 0.496094) 1px 1px 1px;
 	content:'';
 }
 
-.countDiv:after{
+.countDiv::after {
 	top:0.9em;
 }
+
