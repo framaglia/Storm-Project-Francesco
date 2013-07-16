@@ -11,7 +11,7 @@ public class FourSquareUtility{
 	
 	public String getTweetNationality(String ll) throws FoursquareApiException{
 		
-		FoursquareApi foursquareApi = new FoursquareApi("X0P3PFF0IQ1DVWJQZVARXQXACIZC22VGRLQ3STKY3DMG1SHK", "RBV5S2B40HVXZHRF2MML255XFTRPVCUBSH2VB3QHBQANZU4V", "http://ilariomaiolo.it");
+		FoursquareApi foursquareApi = new FoursquareApi("BWEAGCZDWFU2ICIZXBB05XVCOCBWMSQ44GZLXACG4JIMJF2N", "TM4HTR0OAGGBYJITUFWPLTWISMMRHLCDJWW1CB0DE3M5XPTC","5TCJURTE5MSEPGB5SEX4WW3JYCO3VJZOMDUD12KHWB0JVKOB");
 		
 		String nationality = "";
 		fi.foyt.foursquare.api.Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
@@ -26,7 +26,7 @@ public class FourSquareUtility{
 	
 	public String getBestCategory(String ll) throws FoursquareApiException{
 		String category = "";
-		FoursquareApi foursquareApi = new FoursquareApi("X0P3PFF0IQ1DVWJQZVARXQXACIZC22VGRLQ3STKY3DMG1SHK", "RBV5S2B40HVXZHRF2MML255XFTRPVCUBSH2VB3QHBQANZU4V", "http://ilariomaiolo.it");
+		FoursquareApi foursquareApi = new FoursquareApi("BWEAGCZDWFU2ICIZXBB05XVCOCBWMSQ44GZLXACG4JIMJF2N", "TM4HTR0OAGGBYJITUFWPLTWISMMRHLCDJWW1CB0DE3M5XPTC","5TCJURTE5MSEPGB5SEX4WW3JYCO3VJZOMDUD12KHWB0JVKOB");
 		fi.foyt.foursquare.api.Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
 		if (result.getMeta().getCode() == 200) {
 			Double distanceMin = 2000000.0;
@@ -59,7 +59,7 @@ public class FourSquareUtility{
 
 		boolean isValidVenue = false;
 
-		FoursquareApi foursquareApi = new FoursquareApi("X0P3PFF0IQ1DVWJQZVARXQXACIZC22VGRLQ3STKY3DMG1SHK", "RBV5S2B40HVXZHRF2MML255XFTRPVCUBSH2VB3QHBQANZU4V", "http://ilariomaiolo.it");
+		FoursquareApi foursquareApi = new FoursquareApi("BWEAGCZDWFU2ICIZXBB05XVCOCBWMSQ44GZLXACG4JIMJF2N", "TM4HTR0OAGGBYJITUFWPLTWISMMRHLCDJWW1CB0DE3M5XPTC","5TCJURTE5MSEPGB5SEX4WW3JYCO3VJZOMDUD12KHWB0JVKOB");
 		fi.foyt.foursquare.api.Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
 		if (result.getMeta().getCode() == 200) {
 			for (CompactVenue venue : result.getResult().getVenues()) {
@@ -84,7 +84,7 @@ public class FourSquareUtility{
 		
 		boolean isValidVenue = false;
 		
-		FoursquareApi foursquareApi = new FoursquareApi("X0P3PFF0IQ1DVWJQZVARXQXACIZC22VGRLQ3STKY3DMG1SHK", "RBV5S2B40HVXZHRF2MML255XFTRPVCUBSH2VB3QHBQANZU4V", "http://ilariomaiolo.it");
+		FoursquareApi foursquareApi = new FoursquareApi("BWEAGCZDWFU2ICIZXBB05XVCOCBWMSQ44GZLXACG4JIMJF2N", "TM4HTR0OAGGBYJITUFWPLTWISMMRHLCDJWW1CB0DE3M5XPTC","5TCJURTE5MSEPGB5SEX4WW3JYCO3VJZOMDUD12KHWB0JVKOB");
 		fi.foyt.foursquare.api.Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
 		if (result.getMeta().getCode() == 200) {
 			for (CompactVenue venue : result.getResult().getVenues()) {

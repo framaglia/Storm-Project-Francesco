@@ -27,7 +27,6 @@ socket.on('connection', function(client){
     client.on("coords", function(data){
         var ll = data["ll"];
         var acr = data["acr"];
-        console.log(ll+" "+acr);
         client.broadcast.emit('coords',data);
     });
 
@@ -38,7 +37,6 @@ socket.on('connection', function(client){
     client.on('category',function(data){
         var ll = data["ll"];
         var cat = data["category"];
-        console.log(ll+" "+cat);
         client.broadcast.emit('category',data);
     })
 
