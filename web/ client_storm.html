@@ -162,13 +162,10 @@ function drawWorld(){
 
     	});
     
-		function startStorm(a){
+		function startStorm(cat){
 			drawWorld();
 			startCountDown();
-			//var data = document.getElementById('category').value;
-			//document.getElementById("cssmenu").style.display = "none";
-			
-            var jsonData = {'cat': a};
+      var jsonData = {'cat': cat};
 			socket.emit('startStorm',jsonData);
 
     }
